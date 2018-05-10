@@ -1,12 +1,12 @@
 {
-  "name": "pwa-starter-kit",
+  "name": "pwa-starter-kit-plus",
   "version": "0.8.0",
   "flat": true,
   "contributors": [
     "The Polymer Authors"
   ],
   "license": "BSD-3-Clause",
-  "repository": "Polymer/pwa-starter-kit",
+  "repository": "StartPolymer/pwa-starter-kit-plus",
   "scripts": {
     "start": "polymer serve",
     "build": "npm run build:prpl-server && npm run build:static",

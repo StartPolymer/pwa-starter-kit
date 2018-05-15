@@ -21,6 +21,12 @@ gives you the following features:
 - unit and integrating testing starting points
 - documentation about other advanced patterns.
 
+## New features
+
+- [EditorConfig](http://editorconfig.org) for define consistent coding styles between different editors. Atom and VS Code need to install a plugin.
+- [ESLint](https://eslint.org) is linting utility for JavaScript.
+- [Prettier](https://github.com/prettier/prettier) is an opinionated code formatter for enforces a consistent style.
+
 ### 📖Head over to the [wiki](https://github.com/PolymerLabs/pwa-starter-kit/wiki) for more details!
 
 ![pwa-starter-kit screenshot](https://user-images.githubusercontent.com/1369170/39715580-a1be5126-51e2-11e8-8440-96b07be03a3c.png)

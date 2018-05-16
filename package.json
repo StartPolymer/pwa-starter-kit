@@ -47,6 +47,7 @@
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-import": "^2.11.0",
     "eslint-plugin-prettier": "^2.6.0",
+    "husky": "^0.14.3",
     "lint-staged": "^7.1.0",
     "mocha": "^5.1.0",
     "pixelmatch": "^4.0.2",
@@ -61,15 +62,13 @@
     "wct-browser-legacy": "^1.0.0"
   },
   "lint-staged": {
-    "linters": {
-      "*.js": [
-        "eslint --no-ignore --fix",
-        "git add"
-      ],
-      "*.{json,md}": [
-        "prettylint --fix",
-        "git add"
-      ]
-    }
+    "*.js": [
+      "eslint --no-ignore --fix",
+      "git add"
+    ],
+    "*.{json,md}": [
+      "prettylint --fix",
+      "git add"
+    ]
   }
 }

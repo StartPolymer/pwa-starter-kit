@@ -4,14 +4,9 @@
 module.exports = {
   parser: 'babel-eslint',
 
-  extends: [
-    'airbnb-base',
-    'prettier',
-  ],
+  extends: ['airbnb-base', 'prettier'],
 
-  plugins: [
-    'prettier'
-  ],
+  plugins: ['prettier'],
 
   parserOptions: {
     ecmaVersion: 2017,
@@ -25,14 +20,17 @@ module.exports = {
 
   rules: {
     // Enforce that class methods utilize `this`.
-    // Except polymer private method `_render`.
+    // Enable using private class methods without `this`.
     // https://eslint.org/docs/rules/class-methods-use-this
-    'class-methods-use-this': [
-      'error',
-      {
-        exceptMethods: ['_render']
-      },
-    ],
+    'class-methods-use-this': 0,
+
+    // Forbid the use of extraneous packages.
+    // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-extraneous-dependencies.md
+    'import/no-extraneous-dependencies': 0,
+
+    // When there is only a single export from a module, prefer using default export over named export.
+    // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/prefer-default-export.md
+    'import/prefer-default-export': 0,
 
     // Recommend not to leave any console.log in your code.
     // Use console.error, console.warn and console.info instead.

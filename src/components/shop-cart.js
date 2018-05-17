@@ -9,46 +9,49 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html } from '@polymer/lit-element';
+import { connect } from 'pwa-helpers/connect-mixin';
 
-import { connect } from 'pwa-helpers/connect-mixin.js';
-import './shop-item.js';
+import './shop-item';
 
 // This element is connected to the redux store.
-import { store } from '../store.js';
-import { removeFromCart } from '../actions/shop.js';
-import { cartItemsSelector, cartTotalSelector } from '../reducers/shop.js';
-import { removeFromCartIcon } from './my-icons.js';
-import { ButtonSharedStyles } from './button-shared-styles.js';
+import { store } from '../store';
+import { removeFromCart } from '../actions/shop';
+import { cartItemsSelector, cartTotalSelector } from '../reducers/shop';
+import { removeFromCartIcon } from './my-icons';
+import { ButtonSharedStyles } from './button-shared-styles';
 
 class ShopCart extends connect(store)(LitElement) {
-  _render({_items, _total}) {
+  _render({ _items, _total }) {
     return html`
       ${ButtonSharedStyles}
       <style>
         :host { display: block; }
       </style>
       <p hidden="${_items.length !== 0}">Please add some products to cart.</p>
-      ${_items.map((item) =>
-        html`
+      ${_items.map(
+        item =>
+          html`
           <div>
             <shop-item name="${item.title}" amount="${item.amount}" price="${item.price}"></shop-item>
             <button
-                on-click="${(e) => store.dispatch(removeFromCart(e.currentTarget.dataset['index']))}"
+                on-click="${e => store.dispatch(removeFromCart(e.currentTarget.dataset.index))}"
                 data-index$="${item.id}"
                 title="Remove from cart">
               ${removeFromCartIcon}
             </button>
           </div>
-        `
+        `,
       )}
       <p hidden="${!_items.length}"><b>Total:</b> ${_total}</p>
     `;
   }
 
-  static get properties() { return {
-    _items: Array,
-    _total: Number
-  }}
+  static get properties() {
+    return {
+      _items: Array,
+      _total: Number,
+    };
+  }
 
   // This is called every time something is updated in the store.
   _stateChanged(state) {

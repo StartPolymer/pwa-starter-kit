@@ -9,21 +9,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { html } from '@polymer/lit-element';
-import { PageViewElement } from './page-view-element.js';
-import { SharedStyles } from './shared-styles.js';
-import { connect } from 'pwa-helpers/connect-mixin.js';
-import './counter-element.js';
+import { connect } from 'pwa-helpers/connect-mixin';
+
+import { PageViewElement } from './page-view-element';
+import { SharedStyles } from './shared-styles';
+import './counter-element';
 
 // This element is connected to the redux store.
-import { store } from '../store.js';
+import { store } from '../store';
 
 // These are the actions needed by this element.
-import { increment, decrement } from '../actions/counter.js';
+import { increment, decrement } from '../actions/counter';
 
 // We are lazy loading its reducer.
-import counter from '../reducers/counter.js';
+import counter from '../reducers/counter';
+
 store.addReducers({
-  counter
+  counter,
 });
 
 class MyView2 extends connect(store)(PageViewElement) {
@@ -52,11 +54,13 @@ class MyView2 extends connect(store)(PageViewElement) {
     `;
   }
 
-  static get properties() { return {
-    // This is the data from the store.
-    _clicks: Number,
-    _value: Number
-  }}
+  static get properties() {
+    return {
+      // This is the data from the store.
+      _clicks: Number,
+      _value: Number,
+    };
+  }
 
   // This is called every time something is updated in the store.
   _stateChanged(state) {

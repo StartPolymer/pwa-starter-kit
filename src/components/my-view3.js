@@ -9,27 +9,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { html } from '@polymer/lit-element';
-import { PageViewElement } from './page-view-element.js';
-import { SharedStyles } from './shared-styles.js';
-import { ButtonSharedStyles } from './button-shared-styles.js';
-import { connect } from 'pwa-helpers/connect-mixin.js';
-import './shop-products.js';
-import './shop-cart.js';
+import { connect } from 'pwa-helpers/connect-mixin';
+
+import { PageViewElement } from './page-view-element';
+import { SharedStyles } from './shared-styles';
+import { ButtonSharedStyles } from './button-shared-styles';
+import './shop-products';
+import './shop-cart';
 
 // This element is connected to the redux store.
-import { store } from '../store.js';
+import { store } from '../store';
 
 // These are the actions needed by this element.
-import { checkout } from '../actions/shop.js';
+import { checkout } from '../actions/shop';
 
 // We are lazy loading its reducer.
-import shop, { cartQuantitySelector } from '../reducers/shop.js';
+import shop, { cartQuantitySelector } from '../reducers/shop';
+
 store.addReducers({
-  shop
+  shop,
 });
 
 class MyView3 extends connect(store)(PageViewElement) {
-  _render({_quantity, _error}) {
+  _render({ _quantity, _error }) {
     return html`
       ${SharedStyles}
       ${ButtonSharedStyles}
@@ -69,7 +71,7 @@ class MyView3 extends connect(store)(PageViewElement) {
         <div>${_error}</div>
         <br>
         <p>
-          <button class="checkout" hidden="${_quantity == 0}"
+          <button class="checkout" hidden="${_quantity === 0}"
               on-click="${() => store.dispatch(checkout())}">
             Checkout
           </button>
@@ -78,11 +80,13 @@ class MyView3 extends connect(store)(PageViewElement) {
     `;
   }
 
-  static get properties() { return {
-    // This is the data from the store.
-    _quantity: Number,
-    _error: String
-  }}
+  static get properties() {
+    return {
+      // This is the data from the store.
+      _quantity: Number,
+      _error: String,
+    };
+  }
 
   // This is called every time something is updated in the store.
   _stateChanged(state) {

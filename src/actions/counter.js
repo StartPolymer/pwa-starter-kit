@@ -11,14 +11,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 export const INCREMENT = 'INCREMENT';
 export const DECREMENT = 'DECREMENT';
 
-export const increment = () => {
-  return {
-    type: INCREMENT
-  };
-};
+export const increment = () => ({
+  type: INCREMENT,
+});
 
-export const decrement = () => {
-  return {
-    type: DECREMENT
-  };
-};
+export const decrement = () => ({
+  type: DECREMENT,
+});

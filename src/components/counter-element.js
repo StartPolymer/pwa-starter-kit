@@ -9,8 +9,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html } from '@polymer/lit-element';
-import { plusIcon, minusIcon } from './my-icons.js';
-import { ButtonSharedStyles } from './button-shared-styles.js';
+import { plusIcon, minusIcon } from './my-icons';
+import { ButtonSharedStyles } from './button-shared-styles';
 
 // This is a reusable element. It is not connected to the store. You can
 // imagine that it could just as well be a third-party element that you
@@ -33,12 +33,14 @@ class CounterElement extends LitElement {
     `;
   }
 
-  static get properties() { return {
-    /* The total number of clicks you've done. */
-    clicks: Number,
-    /* The current value of the counter. */
-    value: Number
-  }};
+  static get properties() {
+    return {
+      /* The total number of clicks you've done. */
+      clicks: Number,
+      /* The current value of the counter. */
+      value: Number,
+    };
+  }
 
   constructor() {
     super();
@@ -47,14 +49,14 @@ class CounterElement extends LitElement {
   }
 
   _onIncrement() {
-    this.value++;
-    this.clicks++;
+    this.value += 1;
+    this.clicks += 1;
     this.dispatchEvent(new CustomEvent('counter-incremented'));
   }
 
   _onDecrement() {
-    this.value--;
-    this.clicks++;
+    this.value -= 1;
+    this.clicks += 1;
     this.dispatchEvent(new CustomEvent('counter-decremented'));
   }
 }

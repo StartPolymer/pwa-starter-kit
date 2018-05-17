@@ -8,103 +8,60 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { GET_PRODUCTS, ADD_TO_CART, REMOVE_FROM_CART, CHECKOUT_SUCCESS, CHECKOUT_FAILURE } from '../actions/shop.js';
 import { createSelector } from 'reselect';
+import { GET_PRODUCTS, ADD_TO_CART, REMOVE_FROM_CART, CHECKOUT_SUCCESS, CHECKOUT_FAILURE } from '../actions/shop';
 
 const INITIAL_CART = {
   addedIds: [],
-  quantityById: {}
+  quantityById: {},
 };
 
-const UPDATED_CART = {
-  addedIds: ['1'],
-  quantityById: {'1': 1}
-};
-
-const shop = (state = {products: {}, cart: INITIAL_CART}, action) => {
-  switch (action.type) {
-    case GET_PRODUCTS:
-      return {
-        ...state,
-        products: action.products
-      };
-    case ADD_TO_CART:
-    case REMOVE_FROM_CART:
-    case CHECKOUT_SUCCESS:
-      return {
-        ...state,
-        products: products(state.products, action),
-        cart: cart(state.cart, action),
-        error: ''
-      };
-    case CHECKOUT_FAILURE:
-      return {
-        ...state,
-        error: 'Checkout failed. Please try again'
-      };
-    default:
-      return state;
-  }
-}
-
-// Slice reducer: it only reduces the bit of the state it's concerned about.
-const products = (state, action) => {
-  switch (action.type) {
-    case ADD_TO_CART:
-    case REMOVE_FROM_CART:
-      const productId = action.productId;
-      return {
-        ...state,
-        [productId]: product(state[productId], action)
-      };
-    default:
-      return state;
-  }
-}
+// const UPDATED_CART = {
+//   addedIds: ['1'],
+//   quantityById: { '1': 1 },
+// };
 
 const product = (state, action) => {
   switch (action.type) {
     case ADD_TO_CART:
       return {
         ...state,
-        inventory: state.inventory - 1
+        inventory: state.inventory - 1,
       };
     case REMOVE_FROM_CART:
       return {
         ...state,
-        inventory: state.inventory + 1
+        inventory: state.inventory + 1,
       };
     default:
       return state;
   }
-}
+};
 
-const cart = (state = INITIAL_CART, action) => {
+// Slice reducer: it only reduces the bit of the state it's concerned about.
+const products = (state, action) => {
   switch (action.type) {
     case ADD_TO_CART:
-    case REMOVE_FROM_CART:
+    case REMOVE_FROM_CART: {
+      const { productId } = action;
       return {
-        addedIds: addedIds(state.addedIds, state.quantityById, action),
-        quantityById: quantityById(state.quantityById, action)
+        ...state,
+        [productId]: product(state[productId], action),
       };
-    case CHECKOUT_SUCCESS:
-      return INITIAL_CART;
+    }
     default:
       return state;
   }
-}
+};
 
 const addedIds = (state = INITIAL_CART.addedIds, quantityById, action) => {
-  const productId = action.productId;
+  const { productId } = action;
   switch (action.type) {
     case ADD_TO_CART:
       if (state.indexOf(productId) !== -1) {
         return state;
       }
-      return [
-        ...state,
-        action.productId
-      ];
+      return [...state, action.productId];
     case REMOVE_FROM_CART:
       // This is called before the state is updated, so if you have 1 item in the
       // cart during the remove action, you'll have 0.
@@ -116,25 +73,66 @@ const addedIds = (state = INITIAL_CART.addedIds, quantityById, action) => {
     default:
       return state;
   }
-}
+};
 
 const quantityById = (state = INITIAL_CART.quantityById, action) => {
-  const productId = action.productId;
+  const { productId } = action;
   switch (action.type) {
     case ADD_TO_CART:
       return {
         ...state,
-        [productId]: (state[productId] || 0) + 1
+        [productId]: (state[productId] || 0) + 1,
       };
     case REMOVE_FROM_CART:
       return {
         ...state,
-        [productId]: (state[productId] || 0) - 1
+        [productId]: (state[productId] || 0) - 1,
       };
     default:
       return state;
   }
-}
+};
+
+const cart = (state = INITIAL_CART, action) => {
+  switch (action.type) {
+    case ADD_TO_CART:
+    case REMOVE_FROM_CART:
+      return {
+        addedIds: addedIds(state.addedIds, state.quantityById, action),
+        quantityById: quantityById(state.quantityById, action),
+      };
+    case CHECKOUT_SUCCESS:
+      return INITIAL_CART;
+    default:
+      return state;
+  }
+};
+
+const shop = (state = { products: {}, cart: INITIAL_CART }, action) => {
+  switch (action.type) {
+    case GET_PRODUCTS:
+      return {
+        ...state,
+        products: action.products,
+      };
+    case ADD_TO_CART:
+    case REMOVE_FROM_CART:
+    case CHECKOUT_SUCCESS:
+      return {
+        ...state,
+        products: products(state.products, action),
+        cart: cart(state.cart, action),
+        error: '',
+      };
+    case CHECKOUT_FAILURE:
+      return {
+        ...state,
+        error: 'Checkout failed. Please try again',
+      };
+    default:
+      return state;
+  }
+};
 
 export default shop;
 
@@ -153,41 +151,30 @@ const cartSelector = state => state.shop.cart;
 const productsSelector = state => state.shop.products;
 
 // Return a flattened array representation of the items in the cart
-export const cartItemsSelector = createSelector(
-  cartSelector,
-  productsSelector,
-  (cart, products) => {
-    const items = [];
-    for (let id of cart.addedIds) {
-      const item = products[id];
-      items.push({id: item.id, title: item.title, amount: cart.quantityById[id], price: item.price});
-    }
-    return items;
-  }
-);
+export const cartItemsSelector = createSelector(cartSelector, productsSelector, (cartReducer, productsReducer) => {
+  const items = [];
+  cartReducer.addedIds.forEach(id => {
+    const item = productsReducer[id];
+    items.push({ id: item.id, title: item.title, amount: cartReducer.quantityById[id], price: item.price });
+  });
+  return items;
+});
 
 // Return the total cost of the items in the cart
-export const cartTotalSelector = createSelector(
-  cartSelector,
-  productsSelector,
-  (cart, products) => {
-    let total = 0;
-    for (let id of cart.addedIds) {
-      const item = products[id];
-      total += item.price * cart.quantityById[id];
-    }
-    return parseFloat(Math.round(total * 100) / 100).toFixed(2);
-  }
-);
+export const cartTotalSelector = createSelector(cartSelector, productsSelector, (cartReducer, productsReducer) => {
+  let total = 0;
+  cartReducer.addedIds.forEach(id => {
+    const item = productsReducer[id];
+    total += item.price * cartReducer.quantityById[id];
+  });
+  return parseFloat(Math.round(total * 100) / 100).toFixed(2);
+});
 
 // Return the number of items in the cart
-export const cartQuantitySelector = createSelector(
-  cartSelector,
-  cart => {
-    let num = 0;
-    for (let id of cart.addedIds) {
-      num += cart.quantityById[id];
-    }
-    return num;  
-  }
-)
+export const cartQuantitySelector = createSelector(cartSelector, cartReducer => {
+  let num = 0;
+  cartReducer.addedIds.forEach(id => {
+    num += cartReducer.quantityById[id];
+  });
+  return num;
+});

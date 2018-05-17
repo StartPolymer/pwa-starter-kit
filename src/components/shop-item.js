@@ -25,8 +25,8 @@ class ShopItem extends LitElement {
     return {
       name: String,
       amount: String,
-      price: String
-    }
+      price: String,
+    };
   }
 }
 

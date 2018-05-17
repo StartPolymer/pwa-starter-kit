@@ -27,7 +27,7 @@ import './snack-bar';
 import { store } from '../store';
 import { navigate, updateOffline, updateDrawerState, updateLayout } from '../actions/app';
 
-class MyApp extends connect(store)(LitElement) {
+class AppShell extends connect(store)(LitElement) {
   _render({ appTitle, _page, _drawerOpened, _snackbarOpened, _offline }) {
     // Anything that's related to rendering should be done in here.
     return html`
@@ -252,4 +252,4 @@ class MyApp extends connect(store)(LitElement) {
   }
 }
 
-window.customElements.define('my-app', MyApp);
+window.customElements.define('app-shell', AppShell);

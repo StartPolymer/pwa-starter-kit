@@ -26,18 +26,18 @@ async function testNavigation(page, href, linkText) {
   // const shadowSelector = `a[href="/${href}"]`;
 
   // Does the link say the right thing?
-  const myApp = await page.$('my-app');
-  const myText = await page.evaluate(getShadowRootChildProp, myApp, selector, 'textContent');
+  const appShell = await page.$('app-shell');
+  const myText = await page.evaluate(getShadowRootChildProp, appShell, selector, 'textContent');
   expect(await myText).equal(linkText);
 
   // Does the click take you to the right page?
-  await page.evaluate(doShadowRootClick, myApp, selector);
+  await page.evaluate(doShadowRootClick, appShell, selector);
   const newUrl = await page.evaluate('window.location.href');
   expect(newUrl).equal(`${appUrl}/${href}`);
 }
 
 async function testNavigationInADifferentWay(page, href, linkText) {
-  const query = `my-app::shadow a[href="/${href}"]`;
+  const query = `app-shell::shadow a[href="/${href}"]`;
 
   const linkHandle = await page.evaluateHandle(localQuery => window.deepQuerySelector(localQuery), query);
   const text = await page.evaluate(el => el.textContent, linkHandle);
@@ -68,7 +68,7 @@ describe('routing tests', () => {
 
   it('the page selector switches pages', async () => {
     await page.goto(`${appUrl}`);
-    await page.waitForSelector('my-app', { visible: true });
+    await page.waitForSelector('app-shell', { visible: true });
 
     await testNavigation(page, 'view2', 'View Two');
     await testNavigation(page, 'view3', 'View Three');
@@ -77,7 +77,7 @@ describe('routing tests', () => {
 
   it('the page selector switches pages in a different way', async () => {
     await page.goto(`${appUrl}`);
-    await page.waitForSelector('my-app', { visible: true });
+    await page.waitForSelector('app-shell', { visible: true });
 
     // Setup
     await page.evaluate(() => {

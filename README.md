@@ -1,4 +1,4 @@
-[![Built with pwa–starter–kit-plus](https://img.shields.io/badge/built_with-pwa–starter–kit-plus_-blue.svg)](https://github.com/StartPolymer/pwa-starter-kit-plus 'Built with pwa–starter–kit-plus')
+[![Built with pwa–starter–kit–plus](https://img.shields.io/badge/built_with-pwa–starter–kit–plus_-blue.svg)](https://github.com/StartPolymer/pwa-starter-kit-plus 'Built with pwa–starter–kit–plus')
 [![Build status](https://api.travis-ci.org/StartPolymer/pwa-starter-kit-plus.svg?branch=master)](https://travis-ci.org/StartPolymer/pwa-starter-kit-plus)
 
 > ## 🛠 Status: In Development

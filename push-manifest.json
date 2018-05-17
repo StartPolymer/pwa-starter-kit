@@ -1,6 +1,6 @@
 {
   "/": {
-    "src/components/my-app.js": {
+    "src/components/app-shell.js": {
       "type": "script",
       "weight": 1
     },
@@ -14,7 +14,7 @@
     }
   },
   "/view1": {
-    "src/components/my-app.js": {
+    "src/components/app-shell.js": {
       "type": "script",
       "weight": 1
     },
@@ -28,7 +28,7 @@
     }
   },
   "/view2": {
-    "src/components/my-app.js": {
+    "src/components/app-shell.js": {
       "type": "script",
       "weight": 1
     },
@@ -42,7 +42,7 @@
     }
   },
   "/view3": {
-    "src/components/my-app.js": {
+    "src/components/app-shell.js": {
       "type": "script",
       "weight": 1
     },

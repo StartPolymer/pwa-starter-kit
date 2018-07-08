@@ -9,22 +9,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html } from '@polymer/lit-element';
+import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings';
+import { connect } from 'pwa-helpers/connect-mixin';
+import { installMediaQueryWatcher } from 'pwa-helpers/media-query';
+import { installOfflineWatcher } from 'pwa-helpers/network';
+import { installRouter } from 'pwa-helpers/router';
+import { updateMetadata } from 'pwa-helpers/metadata';
 
+// These are the elements needed by this element.
 import '@polymer/app-layout/app-drawer/app-drawer';
 import '@polymer/app-layout/app-header/app-header';
 import '@polymer/app-layout/app-scroll-effects/effects/waterfall';
 import '@polymer/app-layout/app-toolbar/app-toolbar';
-import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings';
-
-import { connect } from 'pwa-helpers/connect-mixin';
-import { installRouter } from 'pwa-helpers/router';
-import { installOfflineWatcher } from 'pwa-helpers/network';
-import { installMediaQueryWatcher } from 'pwa-helpers/media-query';
-import { updateMetadata } from 'pwa-helpers/metadata';
-
 import { menuIcon } from './my-icons';
 import './snack-bar';
+
+// This element is connected to the Redux store.
 import { store } from '../store';
+
+// These are the actions needed by this element.
 import { navigate, updateOffline, updateDrawerState, updateLayout } from '../actions/app';
 
 class AppShell extends connect(store)(LitElement) {
@@ -124,6 +127,11 @@ class AppShell extends connect(store)(LitElement) {
         color: var(--app-drawer-selected-color);
       }
 
+      /* Workaround for IE11 displaying <main> as inline */
+      main {
+        display: block;
+      }
+
       .main-content {
         padding-top: 64px;
         min-height: 100vh;
@@ -194,7 +202,7 @@ class AppShell extends connect(store)(LitElement) {
     </app-drawer>
 
     <!-- Main content -->
-    <main class="main-content">
+    <main role="main" class="main-content">
       <my-view1 class="page" active?="${_page === 'view1'}"></my-view1>
       <my-view2 class="page" active?="${_page === 'view2'}"></my-view2>
       <my-view3 class="page" active?="${_page === 'view3'}"></my-view3>
@@ -202,7 +210,7 @@ class AppShell extends connect(store)(LitElement) {
     </main>
 
     <footer>
-      <p>Made with &lt;3 by the Polymer team.</p>
+      <p>Made with &hearts; by the Polymer team.</p>
     </footer>
 
     <snack-bar active?="${_snackbarOpened}">
@@ -223,7 +231,7 @@ class AppShell extends connect(store)(LitElement) {
   constructor() {
     super();
     // To force all event listeners for gestures to be passive.
-    // See https://www.polymer-project.org/2.0/docs/devguide/gesture-events#use-passive-gesture-listeners
+    // See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
     setPassiveTouchGestures(true);
   }
 

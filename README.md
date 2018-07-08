@@ -29,7 +29,7 @@ gives you the following features:
 * [ESLint](https://eslint.org) is linting utility for JavaScript.
 * [Prettier](https://github.com/prettier/prettier) is an opinionated code formatter for enforces a consistent style.
 
-### 📖Head over to the [wiki](https://github.com/PolymerLabs/pwa-starter-kit/wiki) for more details!
+### 📖 Head over to the [documentation site](https://polymer.github.io/pwa-starter-kit/) for more details or check out [how to get started](https://polymer.github.io/pwa-starter-kit/setup/)!
 
 ![pwa-starter-kit screenshot](https://user-images.githubusercontent.com/1369170/39715580-a1be5126-51e2-11e8-8440-96b07be03a3c.png)
 
@@ -37,11 +37,10 @@ gives you the following features:
 
 These are high priority and currently being worked on, and they will all be fixed before the 1.0 release:
 
-* lit-element and lit-html have IE11 compatibility issues
-* if you have node version 10, you might have problems running the unit tests (and you will get an error along the lines of `Cannot read property '1' of null`. For now, we recommend using node 8 or 9.
+* `lit-element` and `lit-html` have IE11 compatibility issues.
 
 ## TODOs
 
-* [x] setup Safari testing on Travis
-* [ ] update to latest [material-design-web-components](https://github.com/material-components/material-components-web-components)
-* [x] deploy all templates as demos
+* [x] Setup Safari testing on Travis.
+* [x] Deploy all templates as demos.
+* [ ] Update to latest [Material Web Components](https://github.com/material-components/material-components-web-components).

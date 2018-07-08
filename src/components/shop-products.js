@@ -11,10 +11,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { LitElement, html } from '@polymer/lit-element';
 import { connect } from 'pwa-helpers/connect-mixin';
 
-// This element is connected to the redux store.
+// This element is connected to the Redux store.
 import { store } from '../store';
+
+// These are the actions needed by this element.
 import { getAllProducts, addToCart } from '../actions/shop';
+
+// These are the elements needed by this element.
 import { addToCartIcon } from './my-icons';
+
+// These are the shared styles needed by this element.
 import { ButtonSharedStyles } from './button-shared-styles';
 
 class ShopProducts extends connect(store)(LitElement) {

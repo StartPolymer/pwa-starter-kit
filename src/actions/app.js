@@ -19,24 +19,26 @@ const updatePage = page => ({
   page,
 });
 
-const loadPage = page => async dispatch => {
+const loadPage = page => dispatch => {
   let finalPage = page;
 
   switch (page) {
     case 'view1':
-      await import('../components/my-view1.js');
-      // Put code here that you want it to run every time when
-      // navigate to view1 page and my-view1.js is loaded
+      import('../components/my-view1.js');
+      // import('../components/my-view1.js').then(module => {
+      // Put code in here that you want to run every time when
+      // navigating to view1 after my-view1.js is loaded.
+      // });
       break;
     case 'view2':
-      await import('../components/my-view2.js');
+      import('../components/my-view2.js');
       break;
     case 'view3':
-      await import('../components/my-view3.js');
+      import('../components/my-view3.js');
       break;
     default:
       finalPage = 'view404';
-      await import('../components/my-view404.js');
+      import('../components/my-view404.js');
   }
 
   dispatch(updatePage(finalPage));

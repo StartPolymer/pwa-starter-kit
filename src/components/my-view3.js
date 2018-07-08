@@ -10,14 +10,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { html } from '@polymer/lit-element';
 import { connect } from 'pwa-helpers/connect-mixin';
-
 import { PageViewElement } from './page-view-element';
-import { SharedStyles } from './shared-styles';
-import { ButtonSharedStyles } from './button-shared-styles';
-import './shop-products';
-import './shop-cart';
 
-// This element is connected to the redux store.
+// This element is connected to the Redux store.
 import { store } from '../store';
 
 // These are the actions needed by this element.
@@ -25,6 +20,15 @@ import { checkout } from '../actions/shop';
 
 // We are lazy loading its reducer.
 import shop, { cartQuantitySelector } from '../reducers/shop';
+
+// These are the elements needed by this element.
+import './shop-products';
+import './shop-cart';
+
+// These are the shared styles needed by this element.
+import { SharedStyles } from './shared-styles';
+import { ButtonSharedStyles } from './button-shared-styles';
+import { addToCartIcon } from './my-icons';
 
 store.addReducers({
   shop,
@@ -47,12 +51,24 @@ class MyView3 extends connect(store)(PageViewElement) {
           border-color: var(--app-primary-color);
           color: var(--app-primary-color);
         }
+        .cart, .cart svg {
+          fill: var(--app-primary-color);
+          width: 64px;
+          height: 64px;
+        }
+        .circle.small {
+          margin-top: -72px;
+          width: 28px;
+          height: 28px;
+          font-size: 16px;
+          font-weight: bold;
+          line-height: 30px;
+        }
       </style>
 
       <section>
         <h2>Redux example: shopping cart</h2>
-        <div class="circle">${_quantity}</div>
-
+        <div class="cart">${addToCartIcon}<div class="circle small">${_quantity}</div></div>
         <p>This is a slightly more advanced Redux example, that simulates a
           shopping cart: getting the products, adding/removing items to the
           cart, and a checkout action, that can sometimes randomly fail (to
